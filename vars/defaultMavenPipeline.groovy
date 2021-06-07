@@ -20,7 +20,7 @@ def call (Map config = [:] ) {
         parameters {
 
             gitParameter name: 'sourceBranch', branchFilter: 'origin/(.*)', defaultValue: 'develop', description: '',  quickFilterEnabled: false, selectedValue: 'DEFAULT', sortMode: 'NONE', tagFilter: '*', type: 'PT_BRANCH'
-            choice name: 'deploymentTarget', choices: ['int-dev', 'b2c-dev'], description: 'b2c-dev, int-dev (required).'
+            choice name: 'deploymentTarget', choices: ['dev', 'test', 'staging', 'prod'], description: 'Identify which environment to deploy to (required).'
 
       
     }
@@ -139,6 +139,15 @@ def call (Map config = [:] ) {
                     script {
                         sharedLibrary.runNexusPublish()
                         archiveArtifacts "target/*.$PACKAGING"
+                        log.separator()
+                    }
+                }
+            }            
+            stage(" Deploy ") {
+
+                steps {
+                    script {
+                       log.message ('deployment code goes here...)
                         log.separator()
                     }
                 }
